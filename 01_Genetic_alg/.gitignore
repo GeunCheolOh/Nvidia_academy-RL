@@ -1,0 +1,31 @@
+# Solution files (교육용 정답 - 깃허브에 올리지 않음)
+*_solution.py
+
+# Conda Environment
+.conda/
+conda-meta/
+envs/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# System
+.DS_Store
+Thumbs.db
+
+# Models and Logs (optional - 학습 결과 공유하려면 주석 처리)
+models/*.npz
+!models/.gitkeep
+logs/*.json
+logs/*.png
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
