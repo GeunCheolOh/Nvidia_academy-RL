@@ -1,7 +1,7 @@
-# Snake Genetic Algorithm - 학생 실습 프로젝트
+# Snake Genetic Algorithm - 실습 프로젝트
 
 유전 알고리즘(Genetic Algorithm)으로 뱀게임 AI를 학습시키는 교육용 프로젝트입니다.
-**학생들은 `train_ga.py`의 TODO를 완성하여 유전 알고리즘의 핵심 원리를 직접 구현합니다.**
+** `train_ga.py`의 TODO를 완성하여 유전 알고리즘의 핵심 원리를 직접 구현합니다.**
 
 ## 프로젝트 특징
 
@@ -182,14 +182,6 @@ python train_ga.py --population 20 --generations 50
 
 ---
 
-## 기대 결과
-
-- **5세대**: fitness 50~100, score 3~5
-- **10세대**: fitness 100~200, score 5~10
-- **30세대**: fitness 200+, score 10~15
-
----
-
 ## 체크리스트
 
 **genome.py:**
@@ -230,30 +222,13 @@ python train_ga.py --population 20 --generations 50
 
 ---
 
-## 정답 확인
-
-모든 TODO를 완성한 후 정답과 비교:
-```bash
-# 신경망 구현 확인
-diff genome.py genome_solution.py
-
-# 유전 알고리즘 확인
-diff train_ga.py train_ga_solution.py
-```
-
-**주의**: 학습 전에 스스로 해결해보세요!
-
----
-
 ## 프로젝트 구조
 
 ```
 01_Genetic_alg/
 ├── snake_game.py          # 뱀 게임 환경 (센서 입력, 보상 시스템)
 ├── genome.py              # 신경망 구조 (TODO 구현 필요)
-├── genome_solution.py     # 신경망 정답 버전
 ├── train_ga.py           # 학습 스크립트 (TODO 구현 필요)
-├── train_ga_solution.py  # 학습 정답 버전
 ├── manual_play.py        # 키보드로 직접 플레이
 ├── test_agent.py         # 학습된 모델 테스트
 ├── setup_env.sh          # Conda 환경 자동 설정
