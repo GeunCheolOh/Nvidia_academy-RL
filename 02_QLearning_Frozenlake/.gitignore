@@ -23,6 +23,7 @@ logs/
 # Solution files (정답 파일 제외)
 *_solution.py
 *_solution.ipynb
+SOLUTION.md
 
 # OS
 .DS_Store
