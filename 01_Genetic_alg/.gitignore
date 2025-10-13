@@ -1,8 +1,10 @@
-# Virtual Environment
-venv/
-env/
-ENV/
-.venv
+# Solution files (교육용 정답 - 깃허브에 올리지 않음)
+*_solution.py
+
+# Conda Environment
+.conda/
+conda-meta/
+envs/
 
 # Python
 __pycache__/
@@ -10,25 +12,16 @@ __pycache__/
 *$py.class
 *.so
 .Python
-*.egg-info/
-dist/
-build/
 
-# Jupyter Notebook
-.ipynb_checkpoints
-*.ipynb_checkpoints/
+# System
+.DS_Store
+Thumbs.db
 
-# Training Results
-results/
-models/
-*.npz
-*.npy
-*.pth
-*.h5
-
-# Logs
-logs/
-*.log
+# Models and Logs (optional - 학습 결과 공유하려면 주석 처리)
+models/*.npz
+!models/.gitkeep
+logs/*.json
+logs/*.png
 
 # IDE
 .vscode/
@@ -36,21 +29,3 @@ logs/
 *.swp
 *.swo
 *~
-.DS_Store
-
-# Model checkpoints
-checkpoints/
-saved_models/
-weights/
-
-# Data
-data/
-*.csv
-*.json
-*.pkl
-*.pickle
-
-# System
-Thumbs.db
-.cache/
-
