@@ -1,0 +1,36 @@
+# Virtual Environment
+dqn_racing_env/
+venv/
+.venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+
+# Model Weights
+models/saved_weights/*.pth
+
+# Logs
+logs/
+*.log
+tensorboard/
+
+# Solution Files
+*_solution.py
+*_solution.ipynb
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Jupyter
+.ipynb_checkpoints/
+
