@@ -1,23 +1,23 @@
 #!/usr/bin/env python3
 """
-Manual CarRacing Game Test
+수동 CarRacing 게임 테스트
 
-This script allows you to manually play the CarRacing game using keyboard controls.
-It's useful for understanding the game environment before implementing AI agents.
+이 스크립트는 키보드 컨트롤을 사용하여 CarRacing 게임을 수동으로 플레이할 수 있게 합니다.
+AI 에이전트를 구현하기 전에 게임 환경을 이해하는 데 유용합니다.
 
-Controls:
-    Arrow Keys:
-        ↑ (Up)    - Accelerate
-        ↓ (Down)  - Brake
-        ← (Left)  - Steer Left
-        → (Right) - Steer Right
+조작법:
+    방향키:
+        ↑ (위)    - 가속
+        ↓ (아래)  - 브레이크
+        ← (왼쪽)  - 왼쪽으로 조향
+        → (오른쪽) - 오른쪽으로 조향
     
-    Other Keys:
-        ESC       - Quit game
-        R         - Reset episode
-        SPACE     - Pause/Resume
+    기타 키:
+        ESC       - 게임 종료
+        R         - 에피소드 리셋
+        SPACE     - 일시정지/재개
 
-Author: DQN Racing Tutorial
+작성자: DQN Racing Tutorial
 """
 
 import gymnasium as gym
@@ -29,14 +29,14 @@ from typing import Tuple, Dict, Any
 
 
 class ManualCarRacing:
-    """Manual control interface for CarRacing environment."""
+    """CarRacing 환경을 위한 수동 조작 인터페이스"""
     
     def __init__(self, render_mode: str = "human"):
         """
-        Initialize the manual racing environment.
+        수동 레이싱 환경 초기화
         
         Args:
-            render_mode: Rendering mode for the environment
+            render_mode: 환경의 렌더링 모드
         """
         self.env = None
         self.render_mode = render_mode
@@ -44,60 +44,60 @@ class ManualCarRacing:
         self.fps = 60
         self.paused = False
         
-        # Game statistics
+        # 게임 통계
         self.episode_count = 0
         self.total_reward = 0.0
         self.step_count = 0
         self.max_reward = float('-inf')
         self.episode_rewards = []
         
-        # Control state
-        self.action = np.array([0.0, 0.0, 0.0])  # [steering, gas, brake] or discrete action
+        # 조작 상태
+        self.action = np.array([0.0, 0.0, 0.0])  # [조향, 가스, 브레이크] 또는 이산 행동
         self.keys_pressed = set()
         
-        print("Manual CarRacing Game")
+        print("수동 CarRacing 게임")
         print("=" * 40)
-        print("Controls:")
-        print("  ↑ (Up)    - Accelerate")
-        print("  ↓ (Down)  - Brake") 
-        print("  ← (Left)  - Steer Left")
-        print("  → (Right) - Steer Right")
-        print("  ESC       - Quit")
-        print("  R         - Reset")
-        print("  SPACE     - Pause/Resume")
+        print("조작법:")
+        print("  ↑ (위)    - 가속")
+        print("  ↓ (아래)  - 브레이크") 
+        print("  ← (왼쪽)  - 왼쪽으로 조향")
+        print("  → (오른쪽) - 오른쪽으로 조향")
+        print("  ESC       - 종료")
+        print("  R         - 리셋")
+        print("  SPACE     - 일시정지/재개")
         print("=" * 40)
         
     def init_environment(self):
-        """Initialize the racing environment (CarRacing or fallback)."""
-        # Try CarRacing first
+        """레이싱 환경 초기화 (CarRacing 또는 대체 환경)"""
+        # 먼저 CarRacing 시도
         try:
             self.env = gym.make('CarRacing-v3', render_mode=self.render_mode)
             self.env_name = "CarRacing-v3"
-            print("✓ CarRacing environment initialized successfully")
+            print("✓ CarRacing 환경 초기화 성공")
             return True
         except Exception as e:
-            print(f"⚠️  CarRacing not available: {e}")
+            print(f"⚠️  CarRacing을 사용할 수 없습니다: {e}")
             
-        # Fallback to CartPole if CarRacing still fails
+        # CarRacing이 실패하면 CartPole로 대체
         try:
             self.env = gym.make('CartPole-v1', render_mode=self.render_mode)
             self.env_name = "CartPole-v1"
-            print("✓ Using CartPole as fallback environment")
-            print("  (CarRacing requires Box2D: pip install 'gymnasium[box2d]')")
+            print("✓ 대체 환경으로 CartPole 사용")
+            print("  (CarRacing은 Box2D가 필요합니다: pip install 'gymnasium[box2d]')")
             return True
         except Exception as e:
-            print(f"✗ Failed to initialize any environment: {e}")
+            print(f"✗ 환경 초기화 실패: {e}")
             return False
             
     def reset_episode(self):
-        """Reset the environment for a new episode."""
+        """새 에피소드를 위해 환경 리셋"""
         if self.env is None:
             return None
             
         try:
             obs, info = self.env.reset()
             
-            # Update statistics
+            # 통계 업데이트
             if self.total_reward > 0:
                 self.episode_rewards.append(self.total_reward)
                 if self.total_reward > self.max_reward:
@@ -108,19 +108,19 @@ class ManualCarRacing:
             self.step_count = 0
             self.action = np.array([0.0, 0.0, 0.0])
             
-            print(f"\n--- Episode {self.episode_count} Started ---")
+            print(f"\n--- 에피소드 {self.episode_count} 시작 ---")
             return obs
             
         except Exception as e:
-            print(f"Error resetting environment: {e}")
+            print(f"환경 리셋 오류: {e}")
             return None
             
     def process_keyboard_input(self) -> bool:
         """
-        Process keyboard input and update action.
+        키보드 입력을 처리하고 행동 업데이트
         
         Returns:
-            bool: False if quit requested, True otherwise
+            bool: 종료가 요청되면 False, 그렇지 않으면 True
         """
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -135,160 +135,145 @@ class ManualCarRacing:
                     self.reset_episode()
                 elif event.key == pygame.K_SPACE:
                     self.paused = not self.paused
-                    print("Game Paused" if self.paused else "Game Resumed")
+                    print("게임 일시정지" if self.paused else "게임 재개")
                     
             elif event.type == pygame.KEYUP:
                 self.keys_pressed.discard(event.key)
                 
-        # Update action based on currently pressed keys
+        # 현재 눌린 키를 기반으로 행동 업데이트
         self.update_action_from_keys()
         return True
         
     def update_action_from_keys(self):
-        """Update action array based on currently pressed keys."""
-        if hasattr(self, 'env_name') and 'CartPole' in self.env_name:
-            # CartPole: discrete actions (0=left, 1=right)
-            self.action = 0  # Default: push left
-            
-            if pygame.K_LEFT in self.keys_pressed:
-                self.action = 0  # Push cart left
-            elif pygame.K_RIGHT in self.keys_pressed:
-                self.action = 1  # Push cart right
-        else:
-            # CarRacing: continuous actions [steering, gas, brake]
-            self.action = np.array([0.0, 0.0, 0.0])
-            
-            # Steering (left/right)
-            if pygame.K_LEFT in self.keys_pressed:
-                self.action[0] = -1.0  # Steer left
-            elif pygame.K_RIGHT in self.keys_pressed:
-                self.action[0] = 1.0   # Steer right
-                
-            # Gas (accelerate)
-            if pygame.K_UP in self.keys_pressed:
-                self.action[1] = 1.0   # Gas
-                
-            # Brake
-            if pygame.K_DOWN in self.keys_pressed:
-                self.action[2] = 1.0   # Brake
+        """
+        현재 눌린 키를 기반으로 행동 배열 업데이트
+        
+        TODO: 키보드 입력을 환경 행동으로 변환하세요
+        힌트 1: CartPole은 이산 행동 (0=왼쪽, 1=오른쪽)을 사용합니다
+        힌트 2: CarRacing은 연속 행동 [조향, 가스, 브레이크]를 사용합니다
+        힌트 3: 조향: 왼쪽=-1.0, 오른쪽=1.0, 중립=0.0
+        힌트 4: 가스/브레이크: 눌림=1.0, 안눌림=0.0
+        """
+        #YOUR CODE HERE
+        raise NotImplementedError("키보드 입력을 행동으로 변환하세요")
             
     def display_info(self):
-        """Display game information on console."""
-        if self.step_count % 60 == 0:  # Update every second (60 FPS)
+        """콘솔에 게임 정보 표시"""
+        if self.step_count % 60 == 0:  # 1초마다 업데이트 (60 FPS)
             if hasattr(self, 'env_name') and 'CartPole' in self.env_name:
-                action_names = ['Push Left', 'Push Right']
+                action_names = ['왼쪽으로 밀기', '오른쪽으로 밀기']
                 action_str = action_names[self.action] if self.action < len(action_names) else str(self.action)
             else:
                 action_str = f"[{self.action[0]:.1f}, {self.action[1]:.1f}, {self.action[2]:.1f}]"
                 
             info_str = (
-                f"Episode: {self.episode_count} | "
-                f"Step: {self.step_count} | "
-                f"Reward: {self.total_reward:.1f} | "
-                f"Action: {action_str}"
+                f"에피소드: {self.episode_count} | "
+                f"스텝: {self.step_count} | "
+                f"보상: {self.total_reward:.1f} | "
+                f"행동: {action_str}"
             )
             print(f"\r{info_str}", end="", flush=True)
             
     def display_statistics(self):
-        """Display game statistics."""
+        """게임 통계 표시"""
         if len(self.episode_rewards) > 0:
             avg_reward = np.mean(self.episode_rewards)
-            print(f"\n\nGame Statistics:")
-            print(f"  Episodes completed: {len(self.episode_rewards)}")
-            print(f"  Average reward: {avg_reward:.2f}")
-            print(f"  Best reward: {self.max_reward:.2f}")
-            print(f"  Last reward: {self.episode_rewards[-1]:.2f}")
+            print(f"\n\n게임 통계:")
+            print(f"  완료한 에피소드: {len(self.episode_rewards)}")
+            print(f"  평균 보상: {avg_reward:.2f}")
+            print(f"  최고 보상: {self.max_reward:.2f}")
+            print(f"  마지막 보상: {self.episode_rewards[-1]:.2f}")
         else:
-            print(f"\nTotal steps: {self.step_count}")
-            print(f"Current reward: {self.total_reward:.2f}")
+            print(f"\n총 스텝: {self.step_count}")
+            print(f"현재 보상: {self.total_reward:.2f}")
             
     def run(self):
-        """Run the manual racing game."""
+        """수동 레이싱 게임 실행"""
         if not self.init_environment():
             return
             
         pygame.init()
         
-        # Start first episode
+        # 첫 에피소드 시작
         obs = self.reset_episode()
         if obs is None:
             return
             
-        print("Game started! Use arrow keys to control the car.")
+        print("게임 시작! 방향키로 자동차를 조작하세요.")
         running = True
         
         try:
             while running:
-                # Process input
+                # 입력 처리
                 running = self.process_keyboard_input()
                 if not running:
                     break
                     
-                # Skip game logic if paused
+                # 일시정지 상태면 게임 로직 건너뛰기
                 if self.paused:
-                    self.clock.tick(10)  # Lower FPS when paused
+                    self.clock.tick(10)  # 일시정지 시 낮은 FPS
                     continue
                     
-                # Take action in environment
+                # 환경에서 행동 수행
                 try:
                     obs, reward, terminated, truncated, info = self.env.step(self.action)
                     
-                    # Update statistics
+                    # 통계 업데이트
                     self.total_reward += reward
                     self.step_count += 1
                     
-                    # Display info
+                    # 정보 표시
                     self.display_info()
                     
-                    # Check if episode ended
+                    # 에피소드 종료 확인
                     if terminated or truncated:
-                        print(f"\nEpisode {self.episode_count} ended!")
-                        print(f"Final reward: {self.total_reward:.2f}")
-                        print("Press 'R' to reset or ESC to quit")
+                        print(f"\n에피소드 {self.episode_count} 종료!")
+                        print(f"최종 보상: {self.total_reward:.2f}")
+                        print("리셋하려면 'R' 또는 종료하려면 ESC를 누르세요")
                         
                 except Exception as e:
-                    print(f"\nError during step: {e}")
+                    print(f"\n스텝 실행 오류: {e}")
                     break
                     
-                # Control FPS
+                # FPS 조절
                 self.clock.tick(self.fps)
                 
         except KeyboardInterrupt:
-            print("\nGame interrupted by user")
+            print("\n사용자에 의해 게임이 중단되었습니다")
             
         finally:
             self.cleanup()
             
     def cleanup(self):
-        """Clean up resources."""
+        """리소스 정리"""
         self.display_statistics()
         
         if self.env:
             self.env.close()
             
         pygame.quit()
-        print("\nThanks for playing! 🏎️")
+        print("\n플레이해 주셔서 감사합니다!")
 
 
 def main():
-    """Main function to run the manual racing game."""
-    print("Initializing Manual CarRacing Game...")
+    """수동 레이싱 게임을 실행하는 메인 함수"""
+    print("수동 CarRacing 게임 초기화 중...")
     
-    # Check if pygame is available
+    # pygame 사용 가능 여부 확인
     try:
         import pygame
     except ImportError:
-        print("❌ Pygame not found. Please install it with: pip install pygame")
+        print("❌ Pygame을 찾을 수 없습니다. 설치: pip install pygame")
         sys.exit(1)
         
-    # Check if gym is available
+    # gymnasium 사용 가능 여부 확인
     try:
         import gymnasium as gym
     except ImportError:
-        print("❌ Gymnasium not found. Please install it with: pip install gymnasium[classic_control]")
+        print("❌ Gymnasium을 찾을 수 없습니다. 설치: pip install gymnasium[classic_control]")
         sys.exit(1)
         
-    # Create and run the game
+    # 게임 생성 및 실행
     game = ManualCarRacing(render_mode="human")
     game.run()
 

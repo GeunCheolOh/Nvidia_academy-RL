@@ -49,8 +49,7 @@ pip install -r requirements.txt
 ```
 03_DQN_Racing/
 ├── training/
-│   ├── dqn_training.py          # DQN 학습 코드 (학생용 - TODO 포함)
-│   └── dqn_training_solution.py # 정답 코드
+│   └── dqn_training.py          # DQN 학습 코드
 ├── games/
 │   ├── test_manual_play.py      # 수동 플레이 테스트
 │   └── demo_trained_agent.py    # 학습된 에이전트 시연
